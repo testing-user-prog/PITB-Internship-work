@@ -5,8 +5,7 @@ CREATE TABLE products (
     description TEXT,
     category VARCHAR(100),
     image VARCHAR(255),
-    rating_rate DECIMAL(3, 2),
-    rating_count INT
+    rating_rate DECIMAL(3, 2)
 );
 
 
@@ -44,4 +43,3 @@ CREATE TABLE payments (
 );
 
 
-SELECT * FROM customers

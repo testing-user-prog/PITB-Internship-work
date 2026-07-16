@@ -3,5 +3,5 @@
     "db_port": "5432",
     "db_name": "E-commerce",
     "db_user": "postgres",
-    "db_pass": "<Your Password here>"
+    "db_pass": "<Your password here>"
 }
