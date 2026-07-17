@@ -32,14 +32,20 @@ CREATE TABLE orders (
     PRIMARY KEY (id, product_id)  
 );
 
+select * from orders
 
 CREATE TABLE payments (
-    id INT PRIMARY KEY,
+    id INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
     order_id INT,                
     amount DECIMAL(10, 2) NOT NULL,
     payment_method VARCHAR(50) NOT NULL,
     status VARCHAR(30) NOT NULL,
-    payment_date TIMESTAMP NOT NULL
+    payment_date TIMESTAMP NOT null
+    
 );
+--Now there could be an issue that multiple payments can be made for a single order, for that we can use an insert trigger on the payments table
+--drop table payments
+--drop table orders
+--select * from payments
 
 

@@ -8,6 +8,8 @@ from Transformers.customer import transformcustomer
 from Transformers.products import transformproducts
 from datafetchers.orders import getorders
 from Transformers.orders import transformorders
+from datafetchers.payments import getpayments
+from Transformers.payments import transformpayments
 with open('config.json', 'r') as f:
     config = json.load(f)
 
@@ -40,18 +42,26 @@ db_obj=create_engine(connection_string)
 
 
 # )
-orders_data=pd.DataFrame(getorders("https://fakestoreapi.com/carts"))
-orders_data=transformorders(orders_data)
-print(orders_data)
-orders_data.to_sql(
-    index=False,
-    if_exists='append',
-    con=db_obj,
-    name='orders'
+# orders_data=pd.DataFrame(getorders("https://fakestoreapi.com/carts"))
+# orders_data=transformorders(orders_data)
+# print(orders_data)
+# orders_data.to_sql(
+#     index=False,
+#     if_exists='append',
+#     con=db_obj,
+#     name='orders'
+# )
+payments_data=pd.DataFrame(getpayments('https://fakestoreapi.noksha.dev/api/payments'))
+payments_data=transformpayments(payments_data)
+print(payments_data)
+payments_data.to_sql(
+     index=False,
+     if_exists='append',
+     con=db_obj,
+     name='payments'
 )
 
 
 
 
-
-print('Successfully Executed')
+# print('Successfully Executed')
