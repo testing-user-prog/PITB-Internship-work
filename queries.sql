@@ -35,3 +35,23 @@ where c.id in
 	having sum(p.amount )> (select avg_amount from getaverage)
 )
 
+
+
+-- customers who have never placed a single order larger than $500, but whose total lifecycle spending is still higher than the global average lifecycle spending of all customers.
+with customerstotals as
+	(
+	select c.id as cusid, sum(p.amount ) as custotal from orders o 
+	join payments p on o.id=p.order_id and p.status ='Completed'
+	join customers c on c.id =o.customer_id 
+	group by c.id 
+)
+select * from customers c where c.id in
+(
+	select cusid from customerstotals where custotal > (select avg(custotal) from customerstotals)
+	intersect 
+	select c.id  from customers c where c.id not in(  
+		select customer_id from orders o 
+		join payments p on p.order_id =o.id 
+		where p.status ='Completed' and p.amount >=500
+)
+)
