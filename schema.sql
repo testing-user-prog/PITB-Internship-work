@@ -43,12 +43,4 @@ CREATE TABLE payments (
     payment_date TIMESTAMP NOT null
     
 );
---Now there could be an issue that multiple payments can be made for a single order, for that we can use an insert trigger on the payments table
---drop table payments
---drop table orders
---select * from payments
-
-
-
-
 
