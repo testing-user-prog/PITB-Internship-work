@@ -1,11 +1,20 @@
 import string
 import pandas as pd
 def transformcustomers(cus_df):
+    #Removing invalid numbers
+    invalid_pattern = r'^-|E\+|[a-zA-Z]'
+    cus_df['phone']=cus_df['phone'].astype(str).str.strip()
+    invalid_nums=cus_df['phone'].astype(str).str.contains(invalid_pattern)
+    cus_df.loc[invalid_nums,'phone']=''
+
+    #Storing emails to lower case
+    cus_df['email']=cus_df['email'].astype(str).str.strip().str.lower()
     cus_df['city']=cus_df['city'].astype(str).str.strip()
     cus_df=cus_df[list(cus_df.columns)[:-1]]
     col_names_for_dropped_df=list(cus_df.columns)
     col_names_for_dropped_df.append('Reason')
     dropped_vals=pd.DataFrame(columns=col_names_for_dropped_df)
+    #dropping nulls
     columnstochecknullity=['email','username','password']
     for x in columnstochecknullity:
         null_mask=cus_df[x].isna()
@@ -14,6 +23,7 @@ def transformcustomers(cus_df):
         reason_column=dropped_vals['Reason']
         dropped_vals.loc[dropped_vals['Reason'].isna(), 'Reason'] = f'{x} was null'
         cus_df=clean_df
+    #dropping duplicates
     columnstocheckduplicates=['id','email','username']
     for x in columnstocheckduplicates:
         mask_col=cus_df[x].duplicated(keep='first')

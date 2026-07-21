@@ -7,7 +7,8 @@ CREATE TABLE products (
     image VARCHAR(255),
     rating_rate DECIMAL(3, 2)
 );
-
+select c.phone 
+from customers c 
 
 CREATE TABLE customers (
     id INT PRIMARY KEY,
@@ -31,8 +32,7 @@ CREATE TABLE orders (
     quantity INT NOT NULL,
     PRIMARY KEY (id, product_id)  
 );
-
-select * from orders
+select * from customers c 
 
 CREATE TABLE payments (
     id INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
@@ -43,4 +43,4 @@ CREATE TABLE payments (
     payment_date TIMESTAMP NOT null
     
 );
-
+select * from customers
