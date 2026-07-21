@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from Transformers.customers import transformcustomers
 from Transformers.products import transformproducts
-
+from Transformers.orders import transformorders
 
 
 
@@ -19,11 +19,14 @@ db_object=create_engine(connection_string)
 customers_df=pd.read_csv('dataset/customers.csv',header=0)
 products_df=pd.read_csv('dataset/products.csv',header=0)
 orders_df=pd.read_csv('dataset/orders.csv',header=0)
+
 customers_df,dropped_customers_df=transformcustomers(customers_df)
 products_df,dropped_products_df=transformproducts(products_df)
+orders_df,dropped_orders_df=transformorders(orders_df)
+
 dropped_customers_df.to_csv('dataset/deleted_customer.csv',index=False)
 dropped_products_df.to_csv('dataset/deleted_products.csv',index=False)
-
+dropped_orders_df.to_csv('dataset/deleted_orders.csv',index=False)
 # customers_df.to_sql(
 #     con=db_object,
 #     index=False,
@@ -38,6 +41,18 @@ dropped_products_df.to_csv('dataset/deleted_products.csv',index=False)
 #     name='products',
 #     if_exists='append'
 # )
+
+orders_df.to_sql(
+    con=db_object,
+    index=False,
+    name='orders',
+    if_exists='append'
+)
+
+
+
+
+
 
 print('Program Executed Successfully')
 
