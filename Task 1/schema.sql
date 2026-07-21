@@ -16,7 +16,7 @@ CREATE TABLE customers (
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
-    phone VARCHAR(20),
+    phone VARCHAR(100),
     city VARCHAR(100),
     street VARCHAR(150),
     street_number INT,

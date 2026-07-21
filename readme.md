@@ -1,0 +1,1 @@
+This is my task 2 of my Internship at PITB. I have made an ELT pipeline while carefully cleaning and populating data into the database. Along with that I have I have also documented the reason that caused the removal of rows from the actual data
