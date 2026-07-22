@@ -1,3 +1,6 @@
+from dateutil import relativedelta
+from dateutil import relativedelta
+from dateutil import relativedelta
 import os
 import pandas as pd
 from sqlalchemy import create_engine
@@ -5,7 +8,9 @@ from dotenv import load_dotenv
 from Transformers.customers import transformcustomers
 from Transformers.products import transformproducts
 from Transformers.orders import transformorders
-
+from Analytics.customers import gettop5customers
+from Analytics.orders import ordercountperstatus
+from Analytics.products import revenuepercategory
 
 
 load_dotenv()
@@ -42,12 +47,25 @@ dropped_orders_df.to_csv('dataset/deleted_orders.csv',index=False)
 #     if_exists='append'
 # )
 
-orders_df.to_sql(
-    con=db_object,
-    index=False,
-    name='orders',
-    if_exists='append'
-)
+# orders_df.to_sql(
+#     con=db_object,
+#     index=False,
+#     name='orders',
+#     if_exists='append'
+# )
+
+top_cus=gettop5customers(db_object)
+order_status_df=ordercountperstatus(db_object)
+revenue_category_df=revenuepercategory(db_object)
+
+output_path='dataset/analytics.xlsx'
+
+with pd.ExcelWriter(output_path,engine='openpyxl') as writer:
+    top_cus.to_excel(writer,sheet_name='top5customers',index=False)
+
+    order_status_df.to_excel(writer,sheet_name='ordercountperstatus',index=False)
+
+    revenue_category_df.to_excel(writer,sheet_name='revenueincategories',index=False)
 
 
 
