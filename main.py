@@ -11,6 +11,7 @@ from Transformers.orders import transformorders
 from Analytics.customers import gettop5customers
 from Analytics.orders import ordercountperstatus
 from Analytics.products import revenuepercategory
+from Analytics.payments import month_over_month_revenue
 
 
 load_dotenv()
@@ -57,6 +58,7 @@ dropped_orders_df.to_csv('dataset/deleted_orders.csv',index=False)
 top_cus=gettop5customers(db_object)
 order_status_df=ordercountperstatus(db_object)
 revenue_category_df=revenuepercategory(db_object)
+mom_revenue_df=month_over_month_revenue(db_object)
 
 output_path='dataset/analytics.xlsx'
 
@@ -66,6 +68,8 @@ with pd.ExcelWriter(output_path,engine='openpyxl') as writer:
     order_status_df.to_excel(writer,sheet_name='ordercountperstatus',index=False)
 
     revenue_category_df.to_excel(writer,sheet_name='revenueincategories',index=False)
+
+    mom_revenue_df.to_excel(writer,sheet_name='mom_revenue',index=False)
 
 
 

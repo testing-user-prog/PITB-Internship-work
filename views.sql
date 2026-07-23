@@ -46,4 +46,19 @@ group by a.order_status
 
 
 
+create view month_over_month_revenue
+as
+SELECT 
+    DATE_TRUNC('month', payment_date) AS revenue_month,
+    SUM(amount) AS current_revenue,
+    LAG(SUM(amount)) OVER (ORDER BY DATE_TRUNC('month', payment_date)) AS previous_revenue,
+    SUM(amount) - LAG(SUM(amount)) OVER (ORDER BY DATE_TRUNC('month', payment_date)) AS revenue_change
+FROM payments
+WHERE status = 'Completed'
+GROUP BY DATE_TRUNC('month', payment_date);
+
+
+
+
+
 
